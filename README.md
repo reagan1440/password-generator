@@ -22,4 +22,4 @@ after all prompts are finished you will recive your password and you can copy it
 https://reagan1440.github.io/portfolio-page/
 
 ## repository
-https://github.com/reagan1440/password-generator
+https://reagan1440.github.io/password-generator/
