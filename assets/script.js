@@ -1,52 +1,54 @@
 // Assignment Code
 
-const number = "0123456789";
-const specialChar = "!@#$%^&*()_-+={[}]:;'<,>.?/*";
-const lower = "abcdefghijklmnopqrstuvwxyz";
-const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const num = "0123456789";
+const char = "!@#$%^&*()_-+={[}]:;'<,>.?/*";
+const lowecase = "abcdefghijklmnopqrstuvwxyz";
+const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-function generatePassword() {
-  var passLength = PasswordLength();
-  var passwordCharacters = BuildPasswordCharacterArray();
+function passPrompt() {
+  var pLength = pLength();
+  var passwordText = document.querySelector("#pLength");
 
+  passwordText.value = pLength;
+//generate pLength
   var genPassword = "";
-  for (var i = 0; i < passLength; i++) {
-    genPassword += passwordCharacters[Math.floor(Math.random() * passwordCharacters.length)];
+  for (var i = 0; i < pLength; i++) {
+    genPassword += passwordText[Math.floor(Math.random() * passwordText.length)];
   }
   return genPassword;
 }
 
 var generateBtn = document.querySelector("#generate");
 console.log (generateBtn);
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+// Write pLength to the #pLength input
+function passPrompt() {
+  var pLength = passPrompt();
+  var passwordText = document.querySelector("#pLength");
 
-  passwordText.value = password;
+  passwordText.value = pLength;
 
 }
 
-function PasswordLength(){
-  var passLength=0;
+function pLength(){
+  var pLength=0;
   var validate=false;
 
   while (!validate) {
-    passLength = parseInt(window.prompt("choose your password length from 8-128 charcaters."));
+    pLength = parseInt(window.prompt("choose your pLength length from 8-128 charcaters."));
 
-    if(passLength >=8 && passLength <= 128){
+    if(pLength >=8 && pLength <= 128){
       validate=true;
-      return passLength;
+      return pLength;
 
     }
     else {
-      window.alert("Your password must be between 8-128 characters.");
+      window.alert("Your pLength must be between 8-128 characters.");
     }
   }
 }
 
 function BuildPasswordCharacterArray() {
-  var passwordCharacters = "";
+  var passwordText = "";
   var confirmLowerCase = confirm("click OK for lowercase characters to be included");
   var confirmUpperCase = confirm("click OK for uppercase characters to be included");
   var confirmSpecialCharacter = confirm("click OK for special characters to be included");
@@ -54,26 +56,26 @@ function BuildPasswordCharacterArray() {
 
 
   if (confirmLowerCase) {
-    passwordCharacters += lower;
+    passwordText += lowecase;
   }
   if (confirmUpperCase) {
-    passwordCharacters += upper;
+    passwordText += uppercase;
   }
   if (confirmSpecialCharacter) {
-    passwordCharacters += specialChar;
+    passwordText += char;
   }
   if (confirmNumericCharacter) {
-    passwordCharacters += number;
+    passwordText += num;
   }
 
-  if (passwordCharacters.length == 0) {
+  if (passwordText.length == 0) {
     alert("You must select at least one character type!");
-    passwordCharacters = BuildPasswordCharacterArray(); // Call recursively to ensure at least one character type is selected
+    passwordText = BuildPasswordCharacterArray(); // Call recursively to ensure at least one character type is selected
   }
 
-  return passwordCharacters;
+  return passwordText;
 }
 
 
 // Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
+generateBtn.addEventListener("click", passPrompt);
