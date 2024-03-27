@@ -1,81 +1,55 @@
 // Assignment Code
-
-const num = "0123456789";
-const char = "!@#$%^&*()_-+={[}]:;'<,>.?/*";
-const lowecase = "abcdefghijklmnopqrstuvwxyz";
-const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-function passPrompt() {
-  var pLength = pLength();
-  var passwordText = document.querySelector("#pLength");
-
-  passwordText.value = pLength;
-//generate pLength
-  var genPassword = "";
-  for (var i = 0; i < pLength; i++) {
-    genPassword += passwordText[Math.floor(Math.random() * passwordText.length)];
-  }
-  return genPassword;
-}
-
 var generateBtn = document.querySelector("#generate");
-console.log (generateBtn);
-// Write pLength to the #pLength input
-function passPrompt() {
-  var pLength = passPrompt();
-  var passwordText = document.querySelector("#pLength");
 
-  passwordText.value = pLength;
+// Write password to the #password input
+function writePassword() {
+  var password = getPasswordCriteria();
+  var passwordText = document.querySelector("#password");
 
-}
-
-function pLength(){
-  var pLength=0;
-  var validate=false;
-
-  while (!validate) {
-    pLength = parseInt(window.prompt("choose your pLength length from 8-128 charcaters."));
-
-    if(pLength >=8 && pLength <= 128){
-      validate=true;
-      return pLength;
-
-    }
-    else {
-      window.alert("Your pLength must be between 8-128 characters.");
-    }
+  if (password) {
+    passwordText.value = password;
   }
 }
 
-function BuildPasswordCharacterArray() {
-  var passwordText = "";
-  var confirmLowerCase = confirm("click OK for lowercase characters to be included");
-  var confirmUpperCase = confirm("click OK for uppercase characters to be included");
-  var confirmSpecialCharacter = confirm("click OK for special characters to be included");
-  var confirmNumericCharacter = confirm("click OK for numeric characters to be included");
-
-
-  if (confirmLowerCase) {
-    passwordText += lowecase;
-  }
-  if (confirmUpperCase) {
-    passwordText += uppercase;
-  }
-  if (confirmSpecialCharacter) {
-    passwordText += char;
-  }
-  if (confirmNumericCharacter) {
-    passwordText += num;
-  }
-
-  if (passwordText.length == 0) {
+// Function to prompt user for password criteria and generate password
+function getPasswordCriteria() {
+  var passwordLength = getPasswordLength();
+  var characters = "";
+  
+  characters += getConfirmCharacters("lowercase", "abcdefghijklmnopqrstuvwxyz");
+  characters += getConfirmCharacters("uppercase", "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  characters += getConfirmCharacters("special", "!@#$%^&*()_-+={[}]:;'<,>.?/");
+  characters += getConfirmCharacters("numeric", "0123456789");
+  
+  if (characters.length === 0) {
     alert("You must select at least one character type!");
-    passwordText = BuildPasswordCharacterArray(); // Call recursively to ensure at least one character type is selected
   }
-
-  return passwordText;
+  
+  var password = "";
+  for (var i = 0; i < passwordLength; i++) {
+    password += characters[Math.floor(Math.random() * characters.length)];
+  }
+  return password;
 }
 
+// Function to prompt user for password length between 8-128 characters
+function getPasswordLength() {
+  var length = prompt("Enter the length of the password (between 8 and 128 characters):");
+  length = parseInt(length);
+  if (isNaN(length) || length < 8 || length > 128) {
+    alert("Invalid length! Please enter a number between 8 and 128.");
+    return getPasswordLength(); // Restart if invalid length
+  }
+  return length;
+}
+
+// Function to prompt user for character type inclusion
+function getConfirmCharacters(typeName, characterSet) {
+  if (confirm("Include " + typeName + " characters?")) {
+    return characterSet;
+  }
+  return "";
+}
 
 // Add event listener to generate button
-generateBtn.addEventListener("click", passPrompt);
+generateBtn.addEventListener("click", writePassword);
